@@ -231,15 +231,12 @@ class PatientVisits
   end
 
   def enrolled_during?(week)
-    return false if enrollments.empty?
-
     enrollments.any? do |start_enrollment, end_enrollment|
       @container.dates_encompasses_week?(start_enrollment, end_enrollment, week)
     end
   end
 
   def enrolled_during_month?
-    return false if enrollments.empty?
     enrollments.any? do |start_enrollment, end_enrollment|
       @container.dates_encompasses_month?(start_enrollment, end_enrollment)
     end
@@ -267,9 +264,10 @@ class PatientVisits
   def validate_monthly_types
     # must have at least 1 per month for SW and SC
     reasons = []
-    return reasons unless enrolled_during_month?
-    monthly_types.each do |type|
-      reasons << "Monthly #{type} visits" if monthly_visits_by_type[type] < 1
+    if enrolled_during_month?
+      monthly_types.each do |type|
+        reasons << "Monthly #{type} visits" if monthly_visits_by_type[type] < 1
+      end
     end
     reasons
   end
