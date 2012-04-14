@@ -149,22 +149,22 @@ class Patients
   def dates_encompasses_week?(start_enrollment, end_enrollment, week)
     case week
     when 1 
-      wk1 >= start_enrollment && (end_enrollment.nil? || wk2 <= end_enrollment)
+      start_enrollment <= wk1 && (end_enrollment.nil? || wk2 <= end_enrollment)
     when 2 
-      wk2 >= start_enrollment && (end_enrollment.nil? || wk3 <= end_enrollment)
+      start_enrollment <= wk2 && (end_enrollment.nil? || wk3 <= end_enrollment)
     when 3 
-      wk3 >= start_enrollment && (end_enrollment.nil? || wk4 <= end_enrollment)
+      start_enrollment <= wk3 && (end_enrollment.nil? || wk4 <= end_enrollment)
     when 4 
-      wk4 >= start_enrollment && (end_enrollment.nil? || (wk5 && wk5 <= end_enrollment) || end_of_month <= end_enrollment)
+      start_enrollment <= wk4 && (end_enrollment.nil? || (wk5 && wk5 <= end_enrollment) || end_of_month <= end_enrollment)
     when 5
-      wk5 >= start_enrollment && (end_enrollment.nil? || wk5 <= end_enrollment) 
+      start_enrollment <= wk5 && (end_enrollment.nil? || wk5 <= end_enrollment) 
     else
       false 
     end
   end
 
   def dates_encompasses_month?(start_enrollment, end_enrollment)
-    start_of_month >= start_enrollment && (end_enrollment.nil? || end_of_month <= end_enrollment)
+    start_enrollment <= start_of_month && (end_enrollment.nil? || end_of_month <= end_enrollment)
   end
 
   def number_of_weeks_to_verify
